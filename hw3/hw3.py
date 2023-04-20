@@ -34,7 +34,8 @@ import numpy as np
 # also provides the following functions for printing states and moves: prettyMoves(path): Translate the solution to a
 # list of moves printlists(path): Visualize the solution and Print a list of states
 def a_star(start_state, goal_test, successors, heuristic):
-    goal_node, node_generated, node_expanded = astar.a_star_search(start_state, goal_test, successors, heuristic)
+    goal_node, node_generated, node_expanded = astar.a_star_search(
+        start_state, goal_test, successors, heuristic)
     if goal_node:
         node = goal_node
         path = [node.state1]
@@ -140,15 +141,15 @@ def goal_test(s):
 # This is the top-level next-states (successor) function.
 # Some skeleton code is provided below.
 # You may delete them totally, depending on your approach.
-# 
-# If you want to use it, you will need to set 'result' to be 
+#
+# If you want to use it, you will need to set 'result' to be
 # the set of states after moving the keeper in each of the 4 directions.
 #
 # You can define the function try-move and decide how to represent UP,DOWN,LEFT,RIGHT.
 # Any None result in the list can be removed by cleanUpList.
 #
 # When generated the successors states, you may need to copy the current state s (numpy array).
-# A shallow copy (e.g, direcly set s1 = s) constructs a new compound object and then inserts references 
+# A shallow copy (e.g, direcly set s1 = s) constructs a new compound object and then inserts references
 # into it to the objects found in the original. In this case, any change in the numpy array s1 will also affect
 # the original array s. Thus, you may need a deep copy (e.g, s1 = np.copy(s)) to construct an indepedent array.
 def next_states(s):
@@ -173,7 +174,7 @@ def h1(s):
     raise NotImplementedError()
 
 
-# EXERCISE: 
+# EXERCISE:
 # This function will be tested in various hard examples.
 # Objective: make A* solve problems as fast as possible.
 
@@ -190,11 +191,11 @@ def h2(s):
 # For most problems, we also provide 2 additional number per problem:
 #    1) # of nodes expanded by A* using our next-states and h0 heuristic.
 #    2) the depth of the optimal solution.
-# These numbers are located at the comments of the problems. For example, the first problem below 
+# These numbers are located at the comments of the problems. For example, the first problem below
 # was solved by 80 nodes expansion of A* and its optimal solution depth is 7.
-# 
+#
 # Your implementation may not result in the same number of nodes expanded, but it should probably
-# give something in the same ballpark. As for the solution depth, any admissible heuristic must 
+# give something in the same ballpark. As for the solution depth, any admissible heuristic must
 # make A* return an optimal solution. So, the depths of the optimal solutions provided could be used
 # for checking whether your heuristic is admissible.
 #
