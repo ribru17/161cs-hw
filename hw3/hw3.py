@@ -132,7 +132,11 @@ def cleanUpList(s_list):
 # this function as the goal testing function, A* will never
 # terminate until the whole search space is exhausted.
 def goal_test(s):
-    raise NotImplementedError()
+    for row in s:
+        for square in row:
+            if square == box:  # there is a box in this square
+                return False
+    return True
 
 
 # EXERCISE: Modify this function to return the list of
@@ -155,23 +159,92 @@ def goal_test(s):
 def next_states(s):
     row, col = getKeeperPosition(s)
     s_list = []
-    s1 = np.copy(s)
+    player_pos = find_player(s)
+    for _ in range(0, 4):
+        s1 = np.copy(s)
+        # TODO get all moves for all directions and push to s_list
 
     # NOT IMPLEMENTED YET! YOU NEED TO FINISH THIS FUNCTION.
 
     return cleanUpList(s_list)
 
 
+def find_player(s):
+    for i, row in enumerate(s):
+        for j, square in enumerate(row):
+            if square == keeper or square == keeperstar:
+                return (i, j)
+
+
+def get_move(s, player_pos, direction):
+    row_edge = len(s[player_pos[0]])
+    col_edge = len(s)
+
+    new_y = player_pos[0] + direction[0]
+    new_x = player_pos[1] + direction[1]
+
+    # is player going to move out of bounds?
+    if new_y >= col_edge or new_x >= row_edge or new_y < 0 or new_x < 0:
+        return None
+
+    new_square = s[new_y][new_x]
+
+    # is player moving into a wall?
+    if new_square == wall:
+        return None
+
+    # is player pushing a box?
+    if new_square == box or new_square == boxstar:
+        # this assumes that a box cannot be on the edge of the map, i.e.
+        # there can only be walls surrounding the map border
+        one_square_past = s[new_y + direction[0]][new_x + direction[1]]
+        if one_square_past != blank and one_square_past != star:
+            return None
+        else:
+            s[player_pos[0]][player_pos[1]] = blank
+            if new_square == boxstar:
+                s[new_y][new_x] = keeperstar
+            else:
+                s[new_y][new_x] = keeper
+
+            if one_square_past == star:
+                s[new_y + direction[0]][new_x + direction[1]] = boxstar
+            else:
+                s[new_y + direction[0]][new_x + direction[1]] = box
+
+            return s
+    else:  # this assumes that we are not moving into another player
+        if new_square == star:
+            s[player_pos[0]][player_pos[1]] = blank
+            s[new_y][new_x] = keeperstar
+        else:  # otherwise we are moving into a blank square
+            s[player_pos[0]][player_pos[1]] = blank
+            s[new_y][new_x] = keeper
+
+        return s
+
+
 # EXERCISE: Modify this function to compute the trivial
 # admissible heuristic.
 def h0(s):
-    raise NotImplementedError()
+    return 0
 
 
 # EXERCISE: Modify this function to compute the
 # number of misplaced boxes in state s (numpy array).
+
+# This heuristic IS admissible since it is >= 0 and the number of misplaced
+# squares must be <= the least cost to go from that state to the goal state
+# since it would take at least as many moves as there are boxes to correct
+# the state
 def h1(s):
-    raise NotImplementedError()
+    boxes = 0
+    for row in s:
+        for square in row:
+            if square == box:
+                boxes += 1
+
+    return boxes
 
 
 # EXERCISE:
