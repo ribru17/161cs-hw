@@ -157,12 +157,16 @@ def goal_test(s):
 # into it to the objects found in the original. In this case, any change in the numpy array s1 will also affect
 # the original array s. Thus, you may need a deep copy (e.g, s1 = np.copy(s)) to construct an indepedent array.
 def next_states(s):
-    row, col = getKeeperPosition(s)
+    # row, col = getKeeperPosition(s)
     s_list = []
-    player_pos = find_player(s)
-    for _ in range(0, 4):
+    player_pos = getKeeperPosition(s)
+    for i in range(-1, 2, 2):
         s1 = np.copy(s)
-        # TODO get all moves for all directions and push to s_list
+        move = get_move(s1, player_pos, (0, i))
+        s_list.append(move)
+        s1 = np.copy(s)
+        move = get_move(s1, player_pos, (i, 0))
+        s_list.append(move)
 
     # NOT IMPLEMENTED YET! YOU NEED TO FINISH THIS FUNCTION.
 
@@ -174,6 +178,7 @@ def find_player(s):
         for j, square in enumerate(row):
             if square == keeper or square == keeperstar:
                 return (i, j)
+    return (-1, -1)
 
 
 def get_move(s, player_pos, direction):
@@ -182,6 +187,10 @@ def get_move(s, player_pos, direction):
 
     new_y = player_pos[0] + direction[0]
     new_x = player_pos[1] + direction[1]
+    # print("newy: ", new_y)
+    # print("dir: ", direction)
+    # print("coledge: ", col_edge)
+    # print('playerpos: ', player_pos)
 
     # is player going to move out of bounds?
     if new_y >= col_edge or new_x >= row_edge or new_y < 0 or new_x < 0:
@@ -195,18 +204,30 @@ def get_move(s, player_pos, direction):
 
     # is player pushing a box?
     if new_square == box or new_square == boxstar:
-        # this assumes that a box cannot be on the edge of the map, i.e.
-        # there can only be walls surrounding the map border
+        # return none if box on edge of map
+        if (new_y + direction[0] >= col_edge or new_x +
+                direction[1] >= row_edge):
+            return None
         one_square_past = s[new_y + direction[0]][new_x + direction[1]]
+
+        # are we pushing the box into a wall or another box?
         if one_square_past != blank and one_square_past != star:
             return None
         else:
-            s[player_pos[0]][player_pos[1]] = blank
+            # is player leaving a blank square or a star square?
+            current_square = s[player_pos[0]][player_pos[1]]
+            if current_square == keeper:
+                s[player_pos[0]][player_pos[1]] = blank
+            else:
+                s[player_pos[0]][player_pos[1]] = star
+
+            # are we moving a box off of a star?
             if new_square == boxstar:
                 s[new_y][new_x] = keeperstar
             else:
                 s[new_y][new_x] = keeper
 
+            # are we pushing box onto a star?
             if one_square_past == star:
                 s[new_y + direction[0]][new_x + direction[1]] = boxstar
             else:
