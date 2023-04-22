@@ -273,7 +273,37 @@ def h1(s):
 # This function will be tested in various hard examples.
 # Objective: make A* solve problems as fast as possible.
 def h2(s):
-    raise NotImplementedError()
+    boxes = {}
+    box_list = []
+    steps = 0
+    for i, row in enumerate(s):
+        for j, square in enumerate(row):
+            if square == box:
+                boxes[str(i) + ',' + str(j)] = -1
+                box_list.append((i, j))
+
+    # for each goal, find minimum distance 
+    goals = []
+    for i, row in enumerate(s):
+        for j, square in enumerate(row):
+            if square == star or square == keeperstar:  # or boxstar????
+                goals.append((i, j))
+
+    # calculate the distance from each goal to each box
+    for goal in goals:
+        for abox in box_list:
+            box_string = str(abox[0]) + ',' + str(abox[1])
+            dist = abs(goal[0] - abox[0]) + abs(goal[1] - abox[1])
+            if boxes[box_string] == -1:
+                boxes[box_string] = dist
+            else:
+                boxes[box_string] = min(dist, boxes[box_string])
+
+    # sum up all the minimum distances
+    for key, val in boxes.items():
+        steps += val
+
+    return steps
 
 
 # Some predefined problems with initial state s (array). Sokoban function will automatically transform it to numpy
@@ -532,7 +562,7 @@ def printstate(s):
     for i in range(row):
         for j in range(col):
             printsquare(s[i, j])
-        print('\n')
+        print('')
 
 
 # Print a list of states with delay.
@@ -543,21 +573,4 @@ def printlists(lists):
 
 
 if __name__ == "__main__":
-    sokoban(s7, h1)
-    # sokoban(s1, h1)
-
-    # sokoban(s2, h1)
-
-    # sokoban(s3, h1)
-
-    # sokoban(s4, h1)
-
-    # sokoban(s5, h0)
-
-    # sokoban(s6, h1)
-
-    # sokoban(s7, h1)
-
-    # sokoban(s8, h1)
-
-    # sokoban(s9, h1)
+    sokoban(s8, h0)
