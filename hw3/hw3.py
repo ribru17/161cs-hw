@@ -157,9 +157,10 @@ def goal_test(s):
 # into it to the objects found in the original. In this case, any change in the numpy array s1 will also affect
 # the original array s. Thus, you may need a deep copy (e.g, s1 = np.copy(s)) to construct an indepedent array.
 def next_states(s):
-    # row, col = getKeeperPosition(s)
     s_list = []
     player_pos = getKeeperPosition(s)
+
+    # find next move for each possible direction
     for i in range(-1, 2, 2):
         s1 = np.copy(s)
         move = get_move(s1, player_pos, (0, i))
@@ -168,11 +169,11 @@ def next_states(s):
         move = get_move(s1, player_pos, (i, 0))
         s_list.append(move)
 
-    # NOT IMPLEMENTED YET! YOU NEED TO FINISH THIS FUNCTION.
-
     return cleanUpList(s_list)
 
 
+# gets the coordinates of the player or (-1, -1) if no player is found
+# (this should never happen)
 def find_player(s):
     for i, row in enumerate(s):
         for j, square in enumerate(row):
@@ -181,16 +182,14 @@ def find_player(s):
     return (-1, -1)
 
 
+# get the next state for a given state and direction (or None if it would be
+# invalid)
 def get_move(s, player_pos, direction):
     row_edge = len(s[player_pos[0]])
     col_edge = len(s)
 
     new_y = player_pos[0] + direction[0]
     new_x = player_pos[1] + direction[1]
-    # print("newy: ", new_y)
-    # print("dir: ", direction)
-    # print("coledge: ", col_edge)
-    # print('playerpos: ', player_pos)
 
     # is player going to move out of bounds?
     if new_y >= col_edge or new_x >= row_edge or new_y < 0 or new_x < 0:
@@ -205,8 +204,10 @@ def get_move(s, player_pos, direction):
     # is player pushing a box?
     if new_square == box or new_square == boxstar:
         # return none if box on edge of map
-        if (new_y + direction[0] >= col_edge or new_x +
-                direction[1] >= row_edge):
+        next_next_y = new_y + direction[0]
+        next_next_x = new_x + direction[1]
+        if (next_next_y >= col_edge or next_next_x >= row_edge or
+                next_next_y < 0 or next_next_x < 0):
             return None
         one_square_past = s[new_y + direction[0]][new_x + direction[1]]
 
@@ -271,7 +272,6 @@ def h1(s):
 # EXERCISE:
 # This function will be tested in various hard examples.
 # Objective: make A* solve problems as fast as possible.
-
 def h2(s):
     raise NotImplementedError()
 
@@ -543,10 +543,21 @@ def printlists(lists):
 
 
 if __name__ == "__main__":
-    sokoban(s1, h0)
+    sokoban(s7, h1)
+    # sokoban(s1, h1)
 
-    sokoban(s2, h0)
+    # sokoban(s2, h1)
 
-    sokoban(s3, h0)
+    # sokoban(s3, h1)
 
-    sokoban(s4, h0)
+    # sokoban(s4, h1)
+
+    # sokoban(s5, h0)
+
+    # sokoban(s6, h1)
+
+    # sokoban(s7, h1)
+
+    # sokoban(s8, h1)
+
+    # sokoban(s9, h1)
