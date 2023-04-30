@@ -234,6 +234,16 @@ def get_move(s, player_pos, direction):
             else:
                 s[new_y + direction[0]][new_x + direction[1]] = box
 
+            # # if we pushed box into a corner we lose (and the corner isn't a goal)
+            # if one_square_past != star:
+            #     try:
+            #         if (s[new_y + direction[0] + 1][new_x + direction[1]] == wall or
+            #             s[new_y + direction[0] - 1][new_x + direction[1]] == wall) and\
+            #             (s[new_y + direction[0]][new_x + direction[1] + 1] ==
+            #                 wall or s[new_y + direction[0]][new_x + direction[1] - 1] == wall):
+            #             return None
+            #     except:
+            #         return None
             return s
     else:  # this assumes that we are not moving into another player
         if new_square == star:
@@ -272,15 +282,28 @@ def h1(s):
 # EXERCISE:
 # This function will be tested in various hard examples.
 # Objective: make A* solve problems as fast as possible.
+
+# this heuristic tries to approximate the number of moves to get each box
+# to its closest goal and returns the total for all boxes PLUS the distance
+# from the player to the closest box
 def h2(s):
     boxes = {}
     box_list = []
     steps = 0
+    min_player_dist = -1
+    player_pos = find_player(s)
+
+    # keep track of each box not on a goal
     for i, row in enumerate(s):
         for j, square in enumerate(row):
             if square == box:
                 boxes[str(i) + ',' + str(j)] = -1
                 box_list.append((i, j))
+                if min_player_dist == -1:
+                    min_player_dist = abs(player_pos[0] - i) + abs(player_pos[1] - j)
+                else:
+                    min_player_dist = min(min_player_dist, abs(player_pos[0] - i) + abs(player_pos[1] - j))
+
 
     # for each goal, find minimum distance 
     goals = []
@@ -300,10 +323,10 @@ def h2(s):
                 boxes[box_string] = min(dist, boxes[box_string])
 
     # sum up all the minimum distances
-    for key, val in boxes.items():
+    for _, val in boxes.items(): # _____
         steps += val
 
-    return steps
+    return steps + min_player_dist
 
 
 # Some predefined problems with initial state s (array). Sokoban function will automatically transform it to numpy
@@ -573,4 +596,15 @@ def printlists(lists):
 
 
 if __name__ == "__main__":
-    sokoban(s8, h0)
+    sokoban(s7, h0)
+    sokoban(s7, h1)
+    sokoban(s7, h2)
+    # sokoban(s9, h0)
+    # sokoban(s12, h1)
+    # sokoban(s12, h2)
+    # sokoban(s13, h1)
+    # sokoban(s13, h2)
+    # sokoban(s9, h2)
+    # sokoban(s10, h2)
+    # sokoban(s18, h2)
+    # sokoban(s18, h1)
