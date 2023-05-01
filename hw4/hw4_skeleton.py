@@ -24,13 +24,10 @@ def at_least_one_color(n, k):
 
 def at_most_one_color(n, k):
     clauses = []
-    for _ in range(k):
-        clauses.append([])
 
-    for i in range(k):
-        for j in range(k):
-            if i != j:
-                clauses[i].append(-node2var(n, j+1, k))
+    for i in range(1, k+1):
+        for j in range(i+1, k+1):
+            clauses.append([-node2var(n, i, k), -node2var(n, j, k)])
 
     return clauses
 
@@ -54,7 +51,6 @@ def generate_edge_clauses(e, k):
     u, v = e
     clauses = []
     for i in range(1, k+1):
-        clauses.append([node2var(u, i, k), node2var(v, i, k)])
         clauses.append([-node2var(u, i, k), -node2var(v, i, k)])
 
     return clauses
@@ -84,4 +80,4 @@ def graph_coloring_to_sat(graph_fl, sat_fl, k):
 
 # Example function call
 if __name__ == "__main__":
-    graph_coloring_to_sat("graph1.txt", "graph1_3.cnf", 3)
+    graph_coloring_to_sat("graph2.txt", "graph2.cnf", 8)
