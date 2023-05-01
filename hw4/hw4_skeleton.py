@@ -51,7 +51,13 @@ def generate_node_clauses(n, k):
 
 
 def generate_edge_clauses(e, k):
-    raise NotImplementedError
+    u, v = e
+    clauses = []
+    for i in range(1, k+1):
+        clauses.append([node2var(u, i, k), node2var(v, i, k)])
+        clauses.append([-node2var(u, i, k), -node2var(v, i, k)])
+
+    return clauses
 
 # The function below converts a graph coloring problem to SAT
 # Return CNF as a list of clauses
@@ -77,5 +83,5 @@ def graph_coloring_to_sat(graph_fl, sat_fl, k):
 
 
 # Example function call
-# if __name__ == "__main__":
-#    graph_coloring_to_sat("graph1.txt", "graph1_3colors.txt", 3)
+if __name__ == "__main__":
+    graph_coloring_to_sat("graph1.txt", "graph1_3.cnf", 3)
