@@ -6,7 +6,7 @@
 # Returns the index of the variable that corresponds to the fact that
 # "Node n gets Color c" when there are k possible colors
 def node2var(n, c, k):
-    raise NotImplementedError
+    return (n-1)*k+c
 
 # Exercise: Fill this function
 # Returns *a clause* for the constraint:
@@ -14,7 +14,8 @@ def node2var(n, c, k):
 
 
 def at_least_one_color(n, k):
-    raise NotImplementedError
+    return [node2var(n, c, k) for c in range(1, k+1)]
+
 
 # Exercise: Fill this function
 # Returns *a list of clauses* for the constraint:
@@ -22,7 +23,17 @@ def at_least_one_color(n, k):
 
 
 def at_most_one_color(n, k):
-    raise NotImplementedError
+    clauses = []
+    for _ in range(k):
+        clauses.append([])
+
+    for i in range(k):
+        for j in range(k):
+            if i != j:
+                clauses[i].append(-node2var(n, j+1, k))
+
+    return clauses
+
 
 # Exercise: Fill this function
 # Returns *a list of clauses* for the constraint:
@@ -30,7 +41,8 @@ def at_most_one_color(n, k):
 
 
 def generate_node_clauses(n, k):
-    raise NotImplementedError
+    return at_most_one_color(n, k) + [at_least_one_color(n, k)]
+
 
 # Exercise: Fill this function
 # Returns *a list of clauses* for the constraint:
