@@ -1,0 +1,17 @@
+1. The SAT instance for graph 1 is not satisfiable with 3 colors.
+
+2. With 4 colors, the SAT instance for graph 1 is satisfiable.
+
+3. These results tell us that the minimum amount of colors required to solve the
+problem for this graph is 4. Here is an example coloring assignment to solve it:
+
+1 - Blue
+2 - Red
+3 - Blue
+4 - Green
+5 - Yellow
+6 - Red
+7 - Green
+
+4. After testing several color amounts with the SAT solver it seems that the
+minimum amount of colors to solve graph 2 is 8.
