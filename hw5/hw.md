@@ -119,3 +119,20 @@ can be proven to be magical if it is horned. It is horned if it is immortal or a
 mammal.
 
 # 4
+
+- Figure 1
+  - Decomposable? Yes: all `AND` gates are fed clauses of independent variables
+    that don't overlap
+  - Deterministic? No: All **CHILD** `OR` gates are deterministic, however the
+    **root** `OR` node **CAN** have both branches of the `OR` evaluate to true
+    thus it is not deterministic overall.
+  - Smooth? No: Some of the child `OR`s have inputs of different variables, e.g.
+    one `OR` gate has input $C$ and then $\lnot C \land \lnot D$
+- ## Figure 2
+  - Decomposable? Yes: All `AND` gates are fed clauses of independent variables
+    that don't overlap
+  - Deterministic? No: Not every `OR` node has children that are inconsistent
+  - Smooth? Yes: Every `OR` gate has children that are made up of the same set
+    of variables
+
+# 5
