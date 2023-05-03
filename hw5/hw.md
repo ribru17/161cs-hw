@@ -94,6 +94,8 @@ This sentence is neither unsatisfiable nor valid.
 
 # 3
 
+**a)**
+
 - Mythical: $A$
 - Mortal: $B$
 - Mammal: $C$
@@ -109,8 +111,12 @@ $\lnot A \lor \lnot B, A \lor (B \land C), (B \land \lnot C) \lor D, \lnot D
 $(\lnot A \lor \lnot B) \land (A \lor B) \land (A \lor C) \land ((B \land \lnot
 C) \lor D) \land (\lnot D \lor E)$
 
+**b)**
+
 $(\lnot A \lor \lnot B) \land (A \lor B) \land (A \lor C) \land (B \lor D) \land
 (\lnot C \lor D) \land (\lnot D \lor E)$
+
+**c)**
 
 Examining the first two clauses of this knowledge base we see $(\lnot A \lor
 \lnot B) \land (A \lor B)$ which is an XOR gate meaning a unicorn is mythical
@@ -136,3 +142,51 @@ mammal.
     of variables
 
 # 5
+
+**a)**
+
+| $A$ | $B$ | $(\lnot A \land B) \lor (\lnot B \land A)$ |
+| --- | --- | ------------------------------------------ |
+| F   | F   | F                                          |
+| F   | T   | T                                          |
+| T   | F   | T                                          |
+| T   | T   | F                                          |
+
+$WMC = \omega(A, \lnot B) + \omega(\lnot A, B) = 0.1 \cdot 0.7 + 0.9 \cdot 0.3 =
+0.34$
+
+**b)**
+
+The count here is the same if we treat the `AND` nodes as products of their
+children and `OR` nodes as sums. This just gives us the same calculation we did
+above due to the helpful properties of DNF. More specifically, since the root
+node is an `OR` we know the circuit is truth when either of the child `AND`
+nodes are true. They cannot both be true since the circuit is deterministic and
+thus we can simply add the weights of both when true and this gives us the total
+weight for the circuit when satisfied.
+
+**c)**
+
+Here we will compute the $WMC$ using the same strategy as above: `OR`s will use
+addition of child nodes and `AND`s will use multiplication of child nodes.
+
+### Bottom `AND` Layer
+
+$0.9\cdot 0.3, 0.9\cdot 0.7, 0.3\cdot 0.1, 0.7\cdot 0.1, 0.5\cdot 0.3, 0.5\cdot
+0.7, 0.3\cdot 0.5, 0.7\cdot 0.5$
+
+### Bottom `OR` Layer
+
+$0.27 + 0.07, 0.35 + 0.15, 0.63 + 0.03, 0.15 + 0.35$
+
+### Top `AND` Layer
+
+$0.34\cdot 0.5, 0.66\cdot 0.5$
+
+### Top `OR` Layer
+
+$0.17 + 0.33$
+
+### Entire Circuit
+
+$WMC = 0.5$
