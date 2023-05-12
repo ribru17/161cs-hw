@@ -1,12 +1,14 @@
 # 1
 
-1. $\theta = \{x / A, y / A, z / B\}$
-2. $\theta = \{y / G(x, x), y / G(A, B)\}$
-3. $\theta = \{x / B, A / y\}$
-4. $\theta = \{y / John, x / John, Father(y) / Father(John), Father(x) /
-   Father(John)\}$
-5. These expressions are not unifiable since $Father(y)$ and $x$ are not of the
-   same form / syntactic structure
+1. $\theta = \{x / A, y / x, z / B\}$
+2. This is not unifiable since we need $y / G(x, x)$ and $y / G(A, B)$. This
+   would mean we need $x / A$ and $x / B$ which is not possible.
+3. $\theta = \{x / B, y / A\}$
+4. $\theta = \{x / y, y / John$
+5. These expressions are not unifiable since we need $x / y$ and $x /
+   Father(y)$. $Father(y)$ and $y$ are different expressions and thus $x$ cannot
+   necessarily be both of them at the same time, so this is not a unifiable pair
+   of sentences.
 
 # 2
 
