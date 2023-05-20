@@ -38,6 +38,13 @@ Using Bayes' Theorem:
 
 $P(O|P) = \frac{P(P|O)|P(O)}{P(P)} = \frac{0.9\cdot 0.5}{P(P)}$
 
+$P(P) = P(P\mid O)P(O) + P(P\mid G)P(G) + P(P\mid \lnot O, \lnot G)P(\lnot O,
+\lnot G)$
+
+$P(P) = 0.9\cdot 0.5 + 0.3\cdot 0.2 + 0.1\cdot 0.3 = 0.54$
+
+So $P(O\mid P) = \frac{0.9\cdot 0.5}{0.54} = 0.8\overline{3}$
+
 # 3
 
 ```mermaid
@@ -80,3 +87,5 @@ Here heads is 1 and tails is 0.
 | $X_1=X_2=X_3=1$ | 0                           | 1                           |
 | $X_1=X_2=X_3=0$ | 0                           | 1                           |
 | $else$          | 1                           | 0                           |
+
+# 4
