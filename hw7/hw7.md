@@ -103,6 +103,11 @@ Here heads is 1 and tails is 0.
 
 ### 2.
 
+- $d\_separated(A, F, E)$: False - C is unknown (open)
+- $d\_separated(G, B, E)$: False - D and F are unknown (open)
+- $d\_separated(AB, CDE, GH)$: True - No open nodes in between any paths from A,
+  B to C, D, E
+
 ### 3.
 
 $Pr(a,b,c,d,e,f,g,h) = Pr(A)Pr(B)Pr(C\mid A)Pr(D\mid A,B)Pr(E\mid B)Pr(F\mid
