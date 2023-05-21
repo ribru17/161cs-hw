@@ -89,3 +89,41 @@ Here heads is 1 and tails is 0.
 | $else$          | 1                           | 0                           |
 
 # 4
+
+### 1.
+
+- $I(A, \emptyset, BE)$
+- $I(B, \emptyset, AC)$
+- $I(C, A, BDE)$
+- $I(D, AB, CE)$
+- $I(E, B, ACDFG)$
+- $I(F, CD, ABE)$
+- $I(G, F, ABCDEH)$
+- $I(H, EF, ABCDG)$
+
+### 2.
+
+### 3.
+
+$Pr(a,b,c,d,e,f,g,h) = Pr(A)Pr(B)Pr(C\mid A)Pr(D\mid A,B)Pr(E\mid B)Pr(F\mid
+C,D)Pr(G\mid F)Pr(H\mid E,F)$
+
+### 4.
+
+$Pr(A=1, B=1) = Pr(A=1)Pr(B=1)$ (because $A$ and $B$ are independent) so
+$Pr(A=1,B=1) = 0.2\cdot 0.7 = 0.14$. $A$ and $E$ are also independent so we can
+say $Pr(E=0,A=0) = Pr(E=0)Pr(A=0) = (Pr(E=0\mid B=0)Pr(B=0) + Pr(E=0\mid
+B=1)Pr(B=1))Pr(A=0) = (0.1\cdot 0.3 + 0.9\cdot 0.7)\cdot 0.8 = 0.66\cdot 0.8 =
+0.528$
+
+# 5
+
+1. $\alpha = \{\lnot A, B\} = \{A = F, B = T\}$
+2. $Pr(\alpha) = 0.3 + 0.1 + 0.4 = 0.8$
+3. |            | $A$ $B$ | $Pr(A, B\mid \alpha)$ |
+   | ---------- | ------- | --------------------- |
+   | $\omega_0$ | T T     | 0.375                 |
+   | $\omega_1$ | T F     | 0                     |
+   | $\omega_2$ | F T     | 0.125                 |
+   | $\omega_3$ | F F     | 0.5                   |
+4. $Pr(A \Rightarrow \lnot B \mid \alpha) = Pr(A = F) = 0.1 + 0.4 = 0.5$
