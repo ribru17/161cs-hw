@@ -3,21 +3,22 @@ import numpy as np
 
 from queue import PriorityQueue
 
+
 class PathNode:
     def __init__(self, state, parent, cost, evaluation):
         """
-
         :param state: the current state
         :param parent: the previous node (PathNode)
         :param cost: the cost from the start state to the current state i.e. g(n)
         :param evaluation: the state value f(n) = g(n) + h(n)
         """
+
         self.state = ()
         row = state.shape[0]
         col = state.shape[1]
         for i in range(row):
             for j in range(col):
-                self.state = self.state + (state[i,j],)
+                self.state = self.state + (state[i, j],)
         self.state1 = state
         self.parent = parent
         self.cost = cost
@@ -63,8 +64,3 @@ def a_star_search(start_state, goal_test, next_states, heuristic):
             pq.put(new_node)
 
     return None, node_generated, node_expanded
-
-
-
-
-

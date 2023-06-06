@@ -1,3 +1,6 @@
+import numpy as np
+import astar
+
 ##############
 # Homework 3 #
 ##############
@@ -23,9 +26,7 @@
 
 
 # Load the astar.py and do not modify it.
-import astar
 # Load the numpy package and the state is represented as a numpy array during this homework.
-import numpy as np
 
 
 # a_star perform the A* algorithm with the start_state (numpy array), goal_test (function), successors (function) and
@@ -300,12 +301,13 @@ def h2(s):
                 boxes[str(i) + ',' + str(j)] = -1
                 box_list.append((i, j))
                 if min_player_dist == -1:
-                    min_player_dist = abs(player_pos[0] - i) + abs(player_pos[1] - j)
+                    min_player_dist = abs(
+                        player_pos[0] - i) + abs(player_pos[1] - j)
                 else:
-                    min_player_dist = min(min_player_dist, abs(player_pos[0] - i) + abs(player_pos[1] - j))
+                    min_player_dist = min(min_player_dist, abs(
+                        player_pos[0] - i) + abs(player_pos[1] - j))
 
-
-    # for each goal, find minimum distance 
+    # for each goal, find minimum distance
     goals = []
     for i, row in enumerate(s):
         for j, square in enumerate(row):
@@ -323,7 +325,7 @@ def h2(s):
                 boxes[box_string] = min(dist, boxes[box_string])
 
     # sum up all the minimum distances
-    for _, val in boxes.items(): # _____
+    for _, val in boxes.items():  # _____
         steps += val
 
     return steps + min_player_dist
